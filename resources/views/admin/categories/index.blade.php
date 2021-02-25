@@ -91,10 +91,10 @@
                                     <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                         <a class="dropdown-item" href="{{ route('categories.edit', $item->id) }}">Edit</a>
                                         <a class="dropdown-item" href="{{ route('categories.destroy', $item->id) }}" onclick="event.preventDefault();
-                                    document.getElementById('delete-category').submit();">Delete</a>
+                                    document.getElementById('delete-category-{{ $item->id }}').submit();">Delete</a>
                                     </div>
 
-                                    <form id="delete-category" action="{{ route('categories.destroy', $item->id) }}" method="post">
+                                    <form id="delete-category-{{ $item->id }}" action="{{ route('categories.destroy', $item->id) }}" method="post">
                                         @csrf
                                         @method('delete')
                                     </form>

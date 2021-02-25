@@ -12,4 +12,9 @@ class Category extends Model
     {
         return $this->hasMany(Article::class);
     }
+
+    public function getNameAttribute($value)
+    {
+        return ucfirst($value);
+    }
 }
