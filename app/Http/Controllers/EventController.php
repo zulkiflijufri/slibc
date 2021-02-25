@@ -120,7 +120,10 @@ class EventController extends Controller
             ]);
 
             // move img
-            $img->move('upload_events',  strtotime('now') . '-' . $img->getClientOriginalName());
+            isset($img) ?
+                $img->move('upload_events',  strtotime('now') . '-' . $img->getClientOriginalName())
+                :
+                '';
         }
     }
 }
