@@ -40,10 +40,10 @@
                             </div>
                         </td>
                         <td class="event">
-                            {{ $item->plan }}
+                            {{ Str::limit($item->plan, 50) }}
                         </td>
                         <td class="description">
-                            {{ $item->description }}
+                            {{ Str::limit($item->description, 50) }}
                         </td>
                         <td class="start_date">
                             {{ $item->start_date }}

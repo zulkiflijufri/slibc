@@ -26,7 +26,7 @@
                     <li class="nav-item">
                         <a class="nav-link{{ request()->is('admin/articles') ? ' active' : '' }}" href="{{ route('articles.index') }}">
                             <i class="ni ni-book-bookmark text-blue"></i>
-                            <span class="nav-link-text">Articles</span>
+                            <span class="nav-link-text">Artikel</span>
                         </a>
                     </li>
                     <li class="nav-item">
