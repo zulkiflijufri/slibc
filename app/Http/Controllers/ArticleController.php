@@ -43,11 +43,8 @@ class ArticleController extends Controller
     public function store()
     {
         $image = request()->file('image');
-        if (File::exists('upload_articles/' . $image->getClientOriginalName())) {
-            return back();
-        } else {
-            $this->addArticles(request(), $image, $article = null);
-        }
+
+        $this->addArticles(request(), $image, $article = null);
 
         return redirect()->route('articles.index');
     }
@@ -58,9 +55,11 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Article $article)
     {
-        //
+        $categories = Category::latest()->get();
+
+        return view('admin.articles.edit', compact('categories', 'article'));
     }
 
     /**
@@ -70,9 +69,15 @@ class ArticleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Article $article)
     {
-        //
+        // dd(request()->all());
+
+        $image = request()->file('image');
+
+        $this->addArticles(request(), $image, $article);
+
+        return redirect()->route('articles.index');
     }
 
     /**
@@ -92,9 +97,16 @@ class ArticleController extends Controller
 
     public function addArticles($req, $img, $article)
     {
-        if (is_null($article)) {
+        if (is_null($article)  && is_null($img)) {
             Article::create([
-                'image' => $img->getClientOriginalName() ?? null,
+                'title' => $req->title,
+                'slug' => Str::slug($req->title),
+                'content' => $req->content,
+                'category_id' => $req->category_id,
+            ]);
+        } elseif (is_null($article)  && isset($img)) {
+            Article::create([
+                'image' =>  strtotime('now') . '-' . $img->getClientOriginalName(),
                 'title' => $req->title,
                 'slug' => Str::slug($req->title),
                 'content' => $req->content,
@@ -102,18 +114,26 @@ class ArticleController extends Controller
             ]);
 
             // move img
-            $img->move('upload_articles', $img->getClientOriginalName());
-        } else {
-            File::delete('upload_articles/', $article->image);
-
-            $img->move('upload_articles', $img->getClientOriginalName());
-
-            $donate->update([
-                'image' => $img->getClientOriginalName() ?? null,
+            $img->move('upload_articles', strtotime('now') . '-' . $img->getClientOriginalName());
+        } elseif (isset($article)  && is_null($img)) {
+            $article->update([
                 'title' => $req->title,
                 'slug' => Str::slug($req->title),
                 'content' => $req->content,
-                'category_id' => $req->content,
+                'category_id' => $req->category_id,
+            ]);
+        } elseif (isset($article) && isset($img)) {
+            File::delete('upload_articles/' . $article->image);
+
+            // move img
+            $img->move('upload_articles', strtotime('now') . '-' . $img->getClientOriginalName());
+
+            $article->update([
+                'image' => strtotime('now') . '-' . $img->getClientOriginalName(),
+                'title' => $req->title,
+                'slug' => Str::slug($req->title),
+                'content' => $req->content,
+                'category_id' => $req->category_id,
             ]);
         }
     }

@@ -1,6 +1,6 @@
 @extends('layouts.admin.main')
 
-@section('title', 'Buat artikel')
+@section('title', 'Edit artikel')
 
 @section('content')
 <div class="col-xl-8 order-xl-1 mx-auto">
@@ -8,13 +8,14 @@
         <div class="card-header">
             <div class="row align-items-center">
                 <div class="col-6">
-                    <h3 class="mb-0">Buat artikel</h3>
+                    <h3 class="mb-0">Edit artikel</h3>
                 </div>
             </div>
         </div>
         <div class="card-body">
-            <form action="{{ route('articles.store') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('articles.update', $article->slug) }}" method="post" enctype="multipart/form-data">
                 @csrf
+                @method('put')
                 <!-- Address -->
                 <div class="pl-lg-4">
                     <div class="row">
@@ -28,7 +29,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label" for="title">Judul</label>
-                                <input type="text" class="form-control" name="title" required>
+                                <input type="text" class="form-control" name="title" required autocomplete="off" value="{{ $article->title }}">
                                 @error('title')
                                 <span class="text-danger text-sm">{{ $message }}</span>
                                 @enderror
@@ -38,14 +39,14 @@
                                 <label class="form-control-label" for="title">Kategori</label>
                                 <select name="category_id" class="form-control">
                                     @foreach($categories as $item)
-                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    <option value="{{ $item->id }}" @if($item->id == $article->category_id) selected @endif>{{ $item->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             @endif
                             <div class="form-group">
                                 <label class="form-control-label" for="title">Konten</label>
-                                <textarea name="content" class="form-control" cols="5" required></textarea>
+                                <textarea name="content" class="form-control" cols="5" required autocomplete="off">{{ $article->content }}</textarea>
                                 @error('content')
                                 <span class="text-danger text-sm">{{ $message }}</span>
                                 @enderror
@@ -55,7 +56,8 @@
                 </div>
                 <div class="pl-lg-4">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-default btn-block">Simpan</button>
+                        <button type="submit" class="btn btn-default">Update</button>
+                        <a href="{{ route('articles.index') }}" type="submit" class="btn btn-secondary">Kembali</a>
                     </div>
                 </div>
             </form>

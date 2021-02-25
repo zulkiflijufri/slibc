@@ -38,16 +38,16 @@
                             </div>
                         </th>
                         <td class="title">
-                            {{ $item->title }}
+                            {{ Str::limit($item->title, 50) }}
                         </td>
                         <td class="category">
                             {{ $item->category->name }}
                         </td>
                         <td class="content">
-                            {{ $item->content }}
+                            {{ Str::limit($item->content, 50)}}
                         </td>
                         <td class="title">
-                            Zulkifli
+                            {{ auth()->user()->name }}
                         </td>
                         <td class="text-right">
                             <div class="dropdown">
@@ -55,7 +55,8 @@
                                     <i class="fas fa-ellipsis-v"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                    <a class="dropdown-item" href="#">Edit</a>
+                                    <a class="dropdown-item" href="{{ route('articles.edit', $item->slug) }}">Edit</a>
+                                    {{-- <a class="dropdown-item" href="{{ route('articles.show', $item->slug) }}">View</a> --}}
                                     <a class="dropdown-item" href="{{ route('articles.destroy', $item->slug) }}" onclick="event.preventDefault();
                                     document.getElementById('delete-article').submit();">Delete</a>
                                 </div>
