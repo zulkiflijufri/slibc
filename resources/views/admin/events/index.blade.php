@@ -36,7 +36,7 @@
                     <tr>
                         <td>
                             <div class="media align-items-center">
-                                <img src="/upload_events/{{ $item->image }}" alt="{{ $item->title }}" class="avatar mr-3">
+                                <img src="/upload_events/{{ $item->image ?? 'default_event.webp'}}" alt="{{ $item->title }}" class="avatar mr-3">
                             </div>
                         </td>
                         <td class="event">
@@ -55,7 +55,9 @@
                             {{ $item->location }}
                         </td>
                         <td>
-                            <span class="badge badge-success">{{ $item->status }}</span>
+                            <span class="badge badge-{{ $item->start_date == date('Y-m-d') ? 'danger' : 'success' }}">
+                                {{ $item->start_date == date('Y-m-d') ? 'Close' : 'Open' }}
+                            </span>
                         </td>
                         <td class="text-right">
                             <div class="dropdown">
@@ -63,12 +65,12 @@
                                     <i class="fas fa-ellipsis-v"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                    <a class="dropdown-item" href="#">Edit</a>
-                                    <a class="dropdown-item" href="{{ route('events.destroy', $item->id) }}" onclick="event.preventDefault();
+                                    <a class="dropdown-item" href="{{ route('events.edit', $item->slug) }}">Edit</a>
+                                    <a class="dropdown-item" href="{{ route('events.destroy', $item->slug) }}" onclick="event.preventDefault();
                                     document.getElementById('delete-event').submit();">Delete</a>
                                 </div>
 
-                                <form id="delete-event" action="{{ route('events.destroy', $item->id) }}" method="post">
+                                <form id="delete-event" action="{{ route('events.destroy', $item->slug) }}" method="post">
                                     @csrf
                                     @method('delete')
                                 </form>

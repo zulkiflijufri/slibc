@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -40,11 +41,7 @@ class EventController extends Controller
     {
         $image = $req->file('image');
 
-        if (File::exists('upload_events/' . $image->getClientOriginalName())) {
-            return back();
-        } else {
-            $this->addEvents($req, $image, $event = null);
-        }
+        $this->addEvents($req, $image, $event = null);
 
         return redirect()->route('events.index');
     }
@@ -55,9 +52,9 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Event $event)
     {
-        //
+        return view('admin.events.edit', compact('event'));
     }
 
     /**
@@ -67,9 +64,13 @@ class EventController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $req, Event $event)
     {
-        //
+        $image = $req->file('image');
+
+        $this->addEvents($req, $image, $event);
+
+        return redirect()->route('events.index');
     }
 
     /**
@@ -89,31 +90,51 @@ class EventController extends Controller
 
     public function addEvents($req, $img, $event)
     {
-        if (is_null($event)) {
+        if (is_null($event) && is_null($img)) {
             Event::create([
-                'image' => $img->getClientOriginalName() ?? null,
-                'plan' => request('plan'),
-                'description' => request('description'),
-                'location' => request('location'),
-                'start_date' => request('start_date'),
-                'end_date' => request('end_date'),
+                'plan' => $req->plan,
+                'slug' => Str::slug($req->plan),
+                'description' => $req->description,
+                'location' => $req->location,
+                'start_date' => $req->start_date,
+                'end_date' => $req->end_date,
+            ]);
+        } elseif (is_null($event) && isset($img)) {
+            Event::create([
+                'image' => strtotime('now') . '-' . $img->getClientOriginalName(),
+                'plan' => $req->plan,
+                'slug' => Str::slug($req->plan),
+                'description' => $req->description,
+                'location' => $req->location,
+                'start_date' => $req->start_date,
+                'end_date' => $req->end_date,
             ]);
 
             // move img
-            $img->move('upload_events', $img->getClientOriginalName());
-        } else {
+            $img->move('upload_events',  strtotime('now') . '-' . $img->getClientOriginalName());
+        } elseif (isset($event) && is_null($img)) {
+            $event->update([
+                'plan' => $req->plan,
+                'slug' => Str::slug($req->plan),
+                'description' => $req->description,
+                'location' => $req->location,
+                'start_date' => $req->start_date,
+                'end_date' => $req->end_date,
+            ]);
+        } elseif (isset($event) && isset($img)) {
             File::delete('upload_events/' . $event->image);
 
             // move img
-            $img->move('upload_events', $img->getClientOriginalName());
+            $img->move('upload_events',  strtotime('now') . '-' . $img->getClientOriginalName());
 
             $event->update([
-                'image' => $img->getClientOriginalName() ?? null,
-                'plan' => request('plan'),
-                'description' => request('description'),
-                'location' => request('location'),
-                'start_date' => request('start_date'),
-                'end_date' => request('end_date'),
+                'image' => strtotime('now') . '-' . $img->getClientOriginalName(),
+                'plan' => $req->plan,
+                'slug' => Str::slug($req->plan),
+                'description' => $req->description,
+                'location' => $req->location,
+                'start_date' => $req->start_date,
+                'end_date' => $req->end_date,
             ]);
         }
     }
