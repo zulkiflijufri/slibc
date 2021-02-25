@@ -90,19 +90,10 @@ class EventController extends Controller
 
     public function addEvents($req, $img, $event)
     {
-        if (is_null($event) && is_null($img)) {
+        if (is_null($event)) {
             Event::create([
                 'plan' => $req->plan,
-                'slug' => Str::slug($req->plan),
-                'description' => $req->description,
-                'location' => $req->location,
-                'start_date' => $req->start_date,
-                'end_date' => $req->end_date,
-            ]);
-        } elseif (is_null($event) && isset($img)) {
-            Event::create([
-                'image' => strtotime('now') . '-' . $img->getClientOriginalName(),
-                'plan' => $req->plan,
+                'image' => isset($img) ? strtotime('now') . '-' . $img->getClientOriginalName() : null,
                 'slug' => Str::slug($req->plan),
                 'description' => $req->description,
                 'location' => $req->location,
@@ -111,31 +102,25 @@ class EventController extends Controller
             ]);
 
             // move img
-            $img->move('upload_events',  strtotime('now') . '-' . $img->getClientOriginalName());
-        } elseif (isset($event) && is_null($img)) {
-            $event->update([
-                'plan' => $req->plan,
-                'slug' => Str::slug($req->plan),
-                'description' => $req->description,
-                'location' => $req->location,
-                'start_date' => $req->start_date,
-                'end_date' => $req->end_date,
-            ]);
-        } elseif (isset($event) && isset($img)) {
+            isset($img) ?
+                $img->move('upload_events',  strtotime('now') . '-' . $img->getClientOriginalName())
+                :
+                '';
+        } else {
             File::delete('upload_events/' . $event->image);
 
-            // move img
-            $img->move('upload_events',  strtotime('now') . '-' . $img->getClientOriginalName());
-
             $event->update([
-                'image' => strtotime('now') . '-' . $img->getClientOriginalName(),
                 'plan' => $req->plan,
+                'image' => isset($img) ? strtotime('now') . '-' . $img->getClientOriginalName() : null,
                 'slug' => Str::slug($req->plan),
                 'description' => $req->description,
                 'location' => $req->location,
                 'start_date' => $req->start_date,
                 'end_date' => $req->end_date,
             ]);
+
+            // move img
+            $img->move('upload_events',  strtotime('now') . '-' . $img->getClientOriginalName());
         }
     }
 }

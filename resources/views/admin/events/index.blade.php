@@ -65,12 +65,12 @@
                                     <i class="fas fa-ellipsis-v"></i>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                    <a class="dropdown-item" href="{{ route('events.edit', $item->slug) }}">Edit</a>
-                                    <a class="dropdown-item" href="{{ route('events.destroy', $item->slug) }}" onclick="event.preventDefault();
-                                    document.getElementById('delete-event').submit();">Delete</a>
+                                    <a class="dropdown-item" href="{{ route('events.edit', $item->id) }}">Edit</a>
+                                    <a class="dropdown-item" href="{{ route('events.destroy', $item->id) }}" onclick="event.preventDefault();
+                                    document.getElementById('delete-event-{{ $item->id }}').submit();">Delete</a>
                                 </div>
 
-                                <form id="delete-event" action="{{ route('events.destroy', $item->slug) }}" method="post">
+                                <form id="delete-event-{{ $item->id }}" action="{{ route('events.destroy', $item->slug) }}" method="post">
                                     @csrf
                                     @method('delete')
                                 </form>
