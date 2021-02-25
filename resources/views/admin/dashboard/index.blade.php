@@ -48,7 +48,7 @@
         <div class="card-body">
             <div class="row">
                 <div class="col text-center">
-                    <h5 class="card-title text-uppercase text-muted mb-0">List Startup</h5>
+                    <h5 class="card-title text-uppercase text-muted mb-0">Startup</h5>
                     <span class="h2 font-weight-bold mb-0">0</span>
                 </div>
             </div>
