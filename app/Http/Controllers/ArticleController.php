@@ -71,8 +71,6 @@ class ArticleController extends Controller
      */
     public function update(Article $article)
     {
-        // dd(request()->all());
-
         $image = request()->file('image');
 
         $this->addArticles(request(), $image, $article);
@@ -97,44 +95,36 @@ class ArticleController extends Controller
 
     public function addArticles($req, $img, $article)
     {
-        if (is_null($article)  && is_null($img)) {
+        if (is_null($article)) {
             Article::create([
                 'title' => $req->title,
-                'slug' => Str::slug($req->title),
-                'content' => $req->content,
-                'category_id' => $req->category_id,
-            ]);
-        } elseif (is_null($article)  && isset($img)) {
-            Article::create([
-                'image' =>  strtotime('now') . '-' . $img->getClientOriginalName(),
-                'title' => $req->title,
+                'image' => isset($img) ? strtotime('now') . '-' . $img->getClientOriginalName() : null,
                 'slug' => Str::slug($req->title),
                 'content' => $req->content,
                 'category_id' => $req->category_id,
             ]);
 
             // move img
-            $img->move('upload_articles', strtotime('now') . '-' . $img->getClientOriginalName());
-        } elseif (isset($article)  && is_null($img)) {
-            $article->update([
-                'title' => $req->title,
-                'slug' => Str::slug($req->title),
-                'content' => $req->content,
-                'category_id' => $req->category_id,
-            ]);
-        } elseif (isset($article) && isset($img)) {
+            isset($img) ?
+                $img->move('upload_articles', strtotime('now') . '-' . $img->getClientOriginalName())
+                :
+                '';
+        } else {
             File::delete('upload_articles/' . $article->image);
 
-            // move img
-            $img->move('upload_articles', strtotime('now') . '-' . $img->getClientOriginalName());
-
             $article->update([
-                'image' => strtotime('now') . '-' . $img->getClientOriginalName(),
+                'image' => isset($img) ? strtotime('now') . '-' . $img->getClientOriginalName() : null,
                 'title' => $req->title,
                 'slug' => Str::slug($req->title),
                 'content' => $req->content,
                 'category_id' => $req->category_id,
             ]);
+
+            // move img
+            isset($img) ?
+                $img->move('upload_articles', strtotime('now') . '-' . $img->getClientOriginalName())
+                :
+                '';
         }
     }
 }

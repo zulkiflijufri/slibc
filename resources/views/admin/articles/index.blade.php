@@ -34,7 +34,7 @@
                     <tr>
                         <th scope="row">
                             <div class="media align-items-center">
-                                <img alt="{{ $item->title }}" src="/upload_articles/{{ $item->image }}" class="avatar mr-3">
+                                <img alt="{{ $item->title }}" src="/upload_articles/{{ $item->image ?? 'default_article.webp' }}" class="avatar mr-3">
                             </div>
                         </th>
                         <td class="title">
