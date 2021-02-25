@@ -8,20 +8,32 @@
         <div class="card-header">
             <div class="row align-items-center">
                 <div class="col-6">
-                    <h3 class="mb-0">Buat Kategori</h3>
+                    <h3 class="mb-0"> {{ isset($category) ?'Edit Kategori' :'Buat Kategori' }}</h3>
                 </div>
+                @if(isset($category))
+                <div class="col-6 text-right text-white">
+                    <a class="btn btn-default btn-sm" href="{{ route('categories.index') }}">Buat kategori</a>
+                </div>
+                @endif
             </div>
         </div>
         <div class="card-body">
-            <form action="{{ route('categories.store') }}" method="post">
+            <form action="{{ isset($category) ? route('categories.update', $category->id) : route('categories.store') }}" method="post">
                 @csrf
+                @if(isset($category))
+                @method('put')
+                @endif
                 <!-- Address -->
                 <div class="pl-lg-4">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-control-label" for="title">Kategori</label>
-                                <input type="text" class="form-control" name="name" required>
+                                @if(isset($category))
+                                <input type="text" class="form-control" name="name" required value="{{ old('name', $category->name) }}" autocomplete="off">
+                                @else
+                                <input type="text" class="form-control" name="name" required value="{{ old('name') }}" autocomplete="off">
+                                @endif
                                 @error('name')
                                 <span class="text-danger text-sm">{{ $message }}</span>
                                 @enderror
@@ -31,7 +43,7 @@
                 </div>
                 <div class="pl-lg-4">
                     <div class="form-group">
-                        <button type="submit" class="btn btn-default btn-block">Simpan</button>
+                        <button type="submit" class="btn btn-default btn-block">{{ isset($category) ? 'Update' :'Simpan' }}</button>
                     </div>
                 </div>
             </form>
@@ -69,7 +81,7 @@
                                 {{ $item->name }}
                             </td>
                             <td>
-                                <span class="badge badge-pill badge-primary">2</span>
+                                <span class="badge badge-pill badge-primary">{{ $item->articles->count() }}</span>
                             </td>
                             <td class="text-right">
                                 <div class="dropdown">

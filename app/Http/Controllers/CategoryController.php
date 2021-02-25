@@ -29,11 +29,12 @@ class CategoryController extends Controller
     {
 
         $message = [
-            'name.min' => 'Panjang kategori min 3 karakter'
+            'name.min' => 'Panjang kategori min 3 karakter',
+            'name.unique' => 'Kategori sudah ada'
         ];
 
         $data = $this->validate(request(), [
-            'name' => 'min:3'
+            'name' => 'min:3|unique:categories'
         ], $message);
 
         Category::create($data);
@@ -47,9 +48,11 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        //
+        $categories = Category::latest()->paginate(10);
+
+        return view('admin.categories.index', compact('categories', 'category'));
     }
 
     /**
@@ -59,9 +62,20 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Category $category)
     {
-        //
+        $message = [
+            'name.min' => 'Panjang kategori min 3 karakter',
+            'name.unique' => 'Kategori sudah ada'
+        ];
+
+        $data = request()->validate([
+            'name' => 'min:3|unique:categories'
+        ], $message);
+
+        $category->update($data);
+
+        return redirect()->route('categories.index');
     }
 
     /**
