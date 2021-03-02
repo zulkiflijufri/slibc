@@ -46,10 +46,10 @@
                             {{ Str::limit($item->description, 50) }}
                         </td>
                         <td class="start_date">
-                            {{ $item->start_date }}
+                            {{ date('d-M-Y', strtotime($item->start_date)) }}
                         </td>
                         <td class="end_date">
-                            {{ $item->end_date }}
+                            {{ date('d-M-Y', strtotime($item->end_date)) }}
                         </td>
                         <td class="location">
                             {{ $item->location }}
