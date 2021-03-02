@@ -14,6 +14,16 @@ class Article extends Model
         'category_id',
     ];
 
+    public function getTitleAttribute($value)
+    {
+        return ucwords($value);
+    }
+
+    public function getContentAttribute($value)
+    {
+        return ucfirst($value);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

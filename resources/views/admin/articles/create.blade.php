@@ -28,7 +28,7 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label" for="title">Judul</label>
-                                <input type="text" class="form-control" name="title" required>
+                                <input type="text" class="form-control" name="title" required autocomplete="off">
                                 @error('title')
                                 <span class="text-danger text-sm">{{ $message }}</span>
                                 @enderror
@@ -45,7 +45,7 @@
                             @endif
                             <div class="form-group">
                                 <label class="form-control-label" for="title">Konten</label>
-                                <textarea name="content" class="form-control" cols="5" required></textarea>
+                                <textarea name="content" class="form-control" rows="10" required id="editor"></textarea>
                                 @error('content')
                                 <span class="text-danger text-sm">{{ $message }}</span>
                                 @enderror
@@ -62,4 +62,17 @@
         </div>
     </div>
 </div>
+{{-- @push('script')
+<script src="https://cdn.jsdelivr.net/npm/sceditor@3/minified/sceditor.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sceditor@3/minified/formats/xhtml.min.js"></script>
+<script>
+    // Replace the textarea #example with SCEditor
+    let textarea = document.getElementById('editor');
+    sceditor.create(textarea, {
+        format: 'xhtml'
+        , style: 'https://cdn.jsdelivr.net/npm/sceditor@3/minified/themes/content/default.min.css'
+    });
+
+</script>
+@endpush --}}
 @endsection

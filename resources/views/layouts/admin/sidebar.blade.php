@@ -2,7 +2,7 @@
     <div class="scrollbar-inner">
         <!-- Brand -->
         <div class="sidenav-header  align-items-center">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/">
                 <img src="/assets/img/slibc.png" class="navbar-brand-img" alt="SLIBC">
             </a>
         </div>

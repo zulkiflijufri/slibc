@@ -17,6 +17,9 @@
     <!-- Page plugins -->
     <!-- Argon CSS -->
     <link rel="stylesheet" href="/admin/assets/css/argon.css?v=1.2.0" type="text/css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sceditor@3/minified/themes/default.min.css" />
+
     <style>
         .display-0 {
             display: none
@@ -119,5 +122,6 @@
     <script src="/admin/assets/vendor/chart.js/dist/Chart.extension.js"></script>
     <!-- Argon JS -->
     <script src="/admin/assets/js/argon.js?v=1.2.0"></script>
+    @stack('script')
 </body>
 </html>

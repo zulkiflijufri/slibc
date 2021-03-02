@@ -1,5 +1,6 @@
 <?php
 
+use App\Role;
 use App\User;
 use Illuminate\Database\Seeder;
 
@@ -12,8 +13,15 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        // User::create([
-        //     ''
-        // ]);
+        Role::create([
+            'name' => 'admin'
+        ]);
+
+        User::create([
+            'name' => 'SLIBC',
+            'email' => 'hi@slibc.com',
+            'password' => bcrypt('password'),
+            'role_id' => 1
+        ]);
     }
 }

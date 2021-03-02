@@ -41,10 +41,10 @@
                             {{ Str::limit($item->title, 50) }}
                         </td>
                         <td class="category">
-                            {{ $item->category->name }}
+                            {{ $item->category->name ?? '-' }}
                         </td>
                         <td class="content">
-                            {{ Str::limit($item->content, 50)}}
+                            {{ Str::limit($item->content, 50) }}
                         </td>
                         <td class="title">
                             {{ auth()->user()->name }}
