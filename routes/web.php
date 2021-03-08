@@ -13,10 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('admin/login', 'LoginController@index')->name('login');
-Route::post('admin/login', 'LoginController@login');
-Route::post('admin/logout', 'LoginController@logout')->name('logout');
+Route::get('/admin/login', 'LoginController@index')->name('login');
+Route::post('/admin/login', 'LoginController@login');
+Route::post('/admin/logout', 'LoginController@logout')->name('logout');
 
 Route::get('/', 'HomeController@index')->name('home.index');
-Route::get('articles/{article}', 'HomeController@article')->name('home.article');
-Route::get('events/{event}', 'HomeController@event')->name('home.event');
+Route::get('/articles/{article}', 'HomeController@article')->name('home.article');
+Route::get('/events/{event}', 'HomeController@event')->name('home.event');

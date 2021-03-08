@@ -9,11 +9,11 @@
 
         <nav class="nav-menu d-none d-lg-block">
             <ul>
-                <li class="active"><a href="#index.html">Home</a></li>
+                <li class="active"><a href="/">Home</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="#services">Programs</a></li>
-                <!-- <li><a href="#portfolio">Portfolio</a></li> -->
-                <li><a href="#team">Informasi</a></li>
+                <li><a href="#programs">Programs</a></li>
+                <li><a href="#articles">Articles</a></li>
+                <li><a href="#events">Events</a></li>
                 <li><a href="#contact">Contact</a></li>
 
                 <!-- <li class="get-started"><a href="#about">Get Started</a></li> -->

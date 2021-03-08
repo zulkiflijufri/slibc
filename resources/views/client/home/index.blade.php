@@ -67,7 +67,7 @@
 </section><!-- End Counts Section -->
 
 <!-- ======= Services Section ======= -->
-<section id="services" class="services">
+<section id="programs" class="programs">
     <div class="container">
         <div class="section-title" data-aos="fade-up">
             <h2>Programs</h2>
@@ -101,7 +101,7 @@
 </section><!-- End More Services Section -->
 
 <!-- ======= Artikel Section ======= -->
-<section id="team" class="team section-bg">
+<section id="articles" class="team section-bg">
     <div class="container">
         <div class="section-title" data-aos="fade-up">
             <h2>Artikel</h2>
@@ -136,7 +136,7 @@
 <!-- End Artikel Section -->
 
 <!-- ======= Event Section ======= -->
-<section id="team" class="team section-bg">
+<section id="events" class="team section-bg">
     <div class="container">
         <div class="section-title" data-aos="fade-up">
             <h2>Event</h2>
